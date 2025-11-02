@@ -3,9 +3,8 @@ name: tests
 
 on:
   push:
-    branches: [ '*' ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ master ]
   schedule:
     # Run weekly
     # * is a special character in YAML so you have to quote this string
@@ -13,28 +12,25 @@ on:
 
 defaults:
   run:
-    shell: bash -l {0}
+    shell: bash -leu {0}
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10']
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
+      fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-    - name: Setup conda ${{ matrix.python-version }}
-      uses: conda-incubator/setup-miniconda@v2
-      with:
-        auto-update-conda: true
-        miniforge-variant: Mambaforge
-        python-version: ${{ matrix.python-version }}
+    - name: Install octave
+      run: |
+        sudo apt-get install -y octave
     - name: Install dependencies
       run: |
-        conda install -y octave
         make install
         make docker-build
     - name: Run test
@@ -63,3 +59,25 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/test-sdist@v1
         with:
           test_command: "jupyter kernelspec list | grep octave"
+
+  check_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Install Dependencies
+        run: |
+          pip install -e .
+      - name: Check Release
+        uses: jupyter-server/jupyter_releaser/.github/actions/check-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  link_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1

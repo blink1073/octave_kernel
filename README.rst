@@ -2,7 +2,7 @@ An Octave kernel for Jupyter
 ============================
 
 .. image:: https://mybinder.org/badge_logo.svg
- :target: https://mybinder.org/v2/gh/Calysto/octave_kernel/master?urlpath=/lab/tree/octave_kernel.ipynb
+ :target: https://mybinder.org/v2/gh/Calysto/octave_kernel/main?urlpath=/lab/tree/octave_kernel.ipynb
 
 Prerequisites
 -------------
@@ -22,10 +22,10 @@ To install using conda::
     conda install octave_kernel
     conda install texinfo # For the inline documentation (shift-tab) to appear.
 
-We require the ``octave`` executable to run the kernel.
-Add that executable's directory to the ``PATH`` environment variable or use the
-``OCTAVE_EXECUTABLE`` to point to the executable itself.
-Note that on Octave 5 on Windows, the executable is in ``"Octave-5.x.x.x\mingw64\bin"``.
+We require the ``octave-cli`` or ``octave`` executable to run the kernel.
+Add that executable's directory to the ``PATH`` environment variable or create the
+environment variable ``OCTAVE_EXECUTABLE`` to point to the executable itself.
+Note that on Octave 5+ on Windows, the executable is in ``"Octave-x.x.x.x\mingw64\bin"``.
 
 We automatically install a Jupyter kernelspec when installing the
 python package.  This location can be found using ``jupyter kernelspec list``.
@@ -165,5 +165,5 @@ To install from a git checkout, run:
     make install
 
 
-.. _Octave: https://www.gnu.org/software/octave/download.html
-.. _online: http://nbviewer.ipython.org/github/Calysto/octave_kernel/blob/master/octave_kernel.ipynb
+.. _Octave: https://octave.org/download
+.. _online: http://nbviewer.ipython.org/github/Calysto/octave_kernel/blob/main/octave_kernel.ipynb
