@@ -4,7 +4,10 @@
             "pattern": "^https://github.com"
         },
         {
-            "pattern": "^http://nbviewer.ipython.org/"
+            "pattern": "^https://nbviewer.jupyter.org/"
+        },
+        {
+            "pattern": "^https?://.*\\.readthedocs\\.(io|org)"
         }
     ]
 }
